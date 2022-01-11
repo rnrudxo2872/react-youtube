@@ -1,6 +1,21 @@
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/navbar.module.css";
 
+interface SearchForm {
+  navSearch: string;
+}
+
 export default function Navbar() {
+  const { register, handleSubmit } = useForm<SearchForm>();
+  const pageNavigate = useNavigate();
+
+  const onSubmit: SubmitHandler<SearchForm> = (data) => {
+    const { navSearch } = data;
+
+    pageNavigate(`/search?terms=${navSearch}`);
+  };
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
@@ -21,10 +36,14 @@ export default function Navbar() {
           </svg>
         </section>
         <section className={styles.center}>
-          <form className={styles["search-form"]} action="">
+          <form
+            className={styles["search-form"]}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <input
               className={styles.searchbox}
               type="text"
+              {...register("navSearch")}
               placeholder="검색"
             />
             <button className={styles["search-btn"]}>
