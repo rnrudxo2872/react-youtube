@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import { searchVideos } from "../api";
 import { ISearchVideo } from "../interfaces/search.interface";
@@ -9,23 +10,23 @@ interface ILocation {
 
 export default function Search() {
   const { search } = useLocation();
-  const terms = new URLSearchParams(search);
+  const getSearchParam = (search: string) =>
+    new URLSearchParams(search).get("terms");
   const [result, setResult] = useState<ISearchVideo>();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    (async function () {
-      const result = await searchVideos(terms.get("terms") ?? "");
-      setResult(result as ISearchVideo);
-      setLoading(false);
-    })();
-  });
+  const { isLoading, error, data } = useQuery<ISearchVideo>(
+    ["search", `${getSearchParam(search)}`],
+    () => searchVideos(getSearchParam(search) ?? "")
+  );
 
   return (
     <div>
-      {loading
-        ? "loading..."
-        : result?.items.map((item) => <h1>{item.snippet.title}</h1>)}
+      {isLoading ? (
+        "loading..."
+      ) : data?.items ? (
+        data?.items.map((item) => <h1>{item.snippet.title}</h1>)
+      ) : (
+        <h1>{"no data!"}</h1>
+      )}
     </div>
   );
 }
