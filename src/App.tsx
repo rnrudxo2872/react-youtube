@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/navbar";
-import Search from "./components/search";
+import Router from "./components/router";
 
 const queryClient = new QueryClient();
 
@@ -14,9 +14,7 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <Navbar />
-          <Routes>
-            <Route path="/search" element={<Search />} />
-          </Routes>
+          <Router />
         </BrowserRouter>
       </div>
     </QueryClientProvider>
