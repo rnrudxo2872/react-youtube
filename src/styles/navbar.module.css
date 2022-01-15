@@ -4,6 +4,8 @@
     background-color: rgb(109, 104, 104);
     width: 100%;
     height: var(--nav-height);
+    display: flex;
+    align-items: center;
 }
 
 .container {

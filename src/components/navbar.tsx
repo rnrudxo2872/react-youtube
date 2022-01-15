@@ -1,13 +1,18 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/navbar.module.css";
+import { SearchValidatoin } from "../validations/navbar.validation";
 
 interface SearchForm {
   navSearch: string;
 }
 
 export default function Navbar() {
-  const { register, handleSubmit } = useForm<SearchForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SearchForm>();
   const pageNavigate = useNavigate();
 
   const onSubmit: SubmitHandler<SearchForm> = (data) => {
@@ -43,7 +48,7 @@ export default function Navbar() {
             <input
               className={styles.searchbox}
               type="text"
-              {...register("navSearch")}
+              {...register("navSearch", SearchValidatoin)}
               placeholder="검색"
             />
             <button className={styles["search-btn"]}>
