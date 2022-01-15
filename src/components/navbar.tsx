@@ -21,6 +21,8 @@ export default function Navbar() {
     pageNavigate(`/search?terms=${navSearch}`);
   };
 
+  if (errors) console.log(errors);
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>

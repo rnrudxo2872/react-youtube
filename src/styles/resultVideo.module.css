@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.chennal {
+    width: fit-content;
+}

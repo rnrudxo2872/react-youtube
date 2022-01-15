@@ -9,3 +9,9 @@ export async function searchVideos(term: string) {
     )
   ).json();
 }
+
+export async function getChannelInfo(id: string) {
+  return await (
+    await fetch(`${END_POINT}/channels?part=snippet&id=${id}&key=${API_KEY}`)
+  ).json();
+}
