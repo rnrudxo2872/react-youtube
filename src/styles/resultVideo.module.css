@@ -1,12 +1,41 @@
 .container {
     display: flex;
+    margin-top: 15px;
 }
 
-.info-container {
+.container:first-child {
+    margin-top: 0x;
+}
+
+.info-container,
+.top-info {
     display: flex;
     flex-direction: column;
 }
 
-.chennal {
-    width: fit-content;
+.info-container {
+}
+
+.chennal-wrapper {
+    display: flex;
+}
+
+.chennal-img {
+    overflow: hidden;
+    border-radius: 100%;
+}
+
+.title-wrapper > h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 2.6rem;
+    text-align: left;
+}
+
+.description-wrapper {
+    display: flex;
+}
+
+.description-wrapper > span {
+    font-size: 1.1rem;
 }

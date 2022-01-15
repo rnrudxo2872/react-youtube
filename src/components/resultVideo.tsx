@@ -13,7 +13,6 @@ export default function ResultVideo(props: Item) {
     ["chennel", `${channelId}`],
     () => getChannelInfo(channelId)
   );
-  if (!isLoading) console.log(`${snippet.channelTitle}의 정보 ==> `, data);
 
   return (
     <div className={styles.container}>
@@ -26,20 +25,34 @@ export default function ResultVideo(props: Item) {
         />
       </section>
       <section className={styles["info-container"]}>
-        <div>
-          <h1>{parser.parseFromString(title, "text/html").body.textContent}</h1>
+        <section className={styles["top-info"]}>
+          <div className={styles["title-wrapper"]}>
+            <h1>
+              {parser.parseFromString(title, "text/html").body.textContent}
+            </h1>
+          </div>
+          <div className={styles["chennal-wrapper"]}>
+            <div className={styles["chennal-img"]}>
+              {isLoading ? null : (
+                <img
+                  src={data?.items[0].snippet.thumbnails.default.url}
+                  alt={`${data?.items[0].snippet.title} 채널 이미지`}
+                  width={
+                    (data?.items[0].snippet.thumbnails.default.width || 88) - 25
+                  }
+                  height={
+                    (data?.items[0].snippet.thumbnails.default.height || 88) -
+                    25
+                  }
+                />
+              )}
+            </div>
+            <div></div>
+          </div>
+        </section>
+        <div className={styles["description-wrapper"]}>
+          <span>{`${description.slice(0, 100)}...`}</span>
         </div>
-        <div className={styles.chennal}>
-          {isLoading ? null : (
-            <img
-              src={data?.items[0].snippet.thumbnails.default.url}
-              alt={`${data?.items[0].snippet.title} 채널 이미지`}
-              width={data?.items[0].snippet.thumbnails.default.width}
-              height={data?.items[0].snippet.thumbnails.default.height}
-            />
-          )}
-        </div>
-        <div>{`${description.slice(0, 100)}...`}</div>
       </section>
     </div>
   );
