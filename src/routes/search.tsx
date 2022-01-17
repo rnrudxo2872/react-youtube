@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import { searchVideos } from "../api";
 import { ISearchVideo } from "../interfaces/search.interface";
-import ResultVideo from "./resultVideo";
+import ResultVideo from "../components/resultVideo";
 
 export default function Search() {
   const { search } = useLocation();
