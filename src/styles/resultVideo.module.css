@@ -1,6 +1,7 @@
 .container {
     display: flex;
     margin-top: 15px;
+    gap: 12px;
 }
 
 .container:first-child {
@@ -11,18 +12,26 @@
 .top-info {
     display: flex;
     flex-direction: column;
-}
-
-.info-container {
+    gap: 10px;
 }
 
 .chennal-wrapper {
     display: flex;
+    align-items: center;
 }
 
 .chennal-img {
     overflow: hidden;
     border-radius: 100%;
+}
+
+.chennal-title {
+    margin-left: 12px;
+    color: rgb(117, 117, 105);
+}
+
+.chennal-title:hover {
+    color: white;
 }
 
 .title-wrapper > h1 {
@@ -38,4 +47,5 @@
 
 .description-wrapper > span {
     font-size: 1.1rem;
+    text-align: left;
 }
