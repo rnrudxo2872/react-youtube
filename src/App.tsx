@@ -1,3 +1,4 @@
+import { HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter } from "react-router-dom";
@@ -9,15 +10,17 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <div className="App">
-        <BrowserRouter>
-          <Navbar />
-          <Router />
-        </BrowserRouter>
-      </div>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <div className="App">
+          <BrowserRouter>
+            <Navbar />
+            <Router />
+          </BrowserRouter>
+        </div>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 

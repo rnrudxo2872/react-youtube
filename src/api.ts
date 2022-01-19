@@ -15,3 +15,19 @@ export async function getChannelInfo(id: string) {
     await fetch(`${END_POINT}/channels?part=snippet&id=${id}&key=${API_KEY}`)
   ).json();
 }
+
+export async function getPopularVideos() {
+  return await (
+    await fetch(
+      `${END_POINT}/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&key=${API_KEY}&regionCode=KR`
+    )
+  ).json();
+}
+
+export async function getVideoDetail(id: string) {
+  return await (
+    await fetch(
+      `${END_POINT}/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${id}&key=${API_KEY}`
+    )
+  ).json();
+}
