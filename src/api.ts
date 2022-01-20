@@ -19,7 +19,7 @@ export async function getChannelInfo(id: string) {
 export async function getPopularVideos() {
   return await (
     await fetch(
-      `${END_POINT}/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&key=${API_KEY}&regionCode=KR`
+      `${END_POINT}/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=20&key=${API_KEY}&regionCode=KR`
     )
   ).json();
 }
