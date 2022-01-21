@@ -67,6 +67,16 @@
     padding-right: 14px;
 }
 
+.comment-main .head .published-date {
+    font-size: 0.9rem;
+    color: #AAAAAA;
+}
+
+.comment-main .head .published-date:hover {
+    color: inherit;
+    cursor: pointer;
+}
+
 .comment-main .body {
     font-size: 1.2rem;
     line-height: 2rem;
