@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
-import { getVideoDetail } from "../api";
+import { getCommentThread, getVideoDetail } from "../api";
 import Head from "../components/head";
 import { IVideoDetail } from "../interfaces/watch.interface";
 import styles from "../styles/watch.module.css";
@@ -13,32 +13,36 @@ export default function Watch() {
 
     return result;
   };
-  const { data, isLoading } = useQuery<IVideoDetail>(
+  const { data: videoData, isLoading: videoLoading } = useQuery<IVideoDetail>(
     ["video", getSearchParam()],
     () => getVideoDetail(getSearchParam())
   );
+  const { data: commentsData, isLoading: commentsLoading } = useQuery(
+    ["video", getSearchParam(), "comments"],
+    () => getCommentThread(getSearchParam())
+  );
   const getTitle = () => {
-    if (!data) throw new Error("video data does not exist.");
-    return data.items[0].snippet.title;
+    if (!videoData) throw new Error("video data does not exist.");
+    return videoData.items[0].snippet.title;
   };
   const getViewCount = () => {
-    if (!data) throw new Error("video data does not exist.");
-    const result = data.items[0].statistics.viewCount;
+    if (!videoData) throw new Error("video data does not exist.");
+    const result = videoData.items[0].statistics.viewCount;
     return Number(result).toLocaleString("ko-KR");
   };
   const getPublishedAt = () => {
-    if (!data) throw new Error("video data does not exist.");
-    const date = new Date(data.items[0].snippet.publishedAt);
+    if (!videoData) throw new Error("video data does not exist.");
+    const date = new Date(videoData.items[0].snippet.publishedAt);
     return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}`;
   };
   const getDescrition = () => {
-    if (!data) throw new Error("video data does not exist.");
-    return data.items[0].snippet.description;
+    if (!videoData) throw new Error("video data does not exist.");
+    return videoData.items[0].snippet.description;
   };
-
+  console.log(commentsData);
   return (
     <>
-      <Head title={isLoading ? "Video" : getTitle()} />
+      <Head title={videoLoading ? "Video" : getTitle()} />
       <div className={styles.container}>
         <div className={styles.main}>
           <div className={styles.player}>
@@ -48,22 +52,37 @@ export default function Watch() {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
             ></iframe>
           </div>
-          {isLoading ? (
+          {videoLoading ? (
             "loading..."
           ) : (
             <div className={styles["video-info"]}>
               <div className={styles.title}>
                 <h1>{getTitle()}</h1>
               </div>
-              <div className={styles.description}>
-                <span
-                  className={styles.viewCount}
-                >{`조회수 ${getViewCount()}회 `}</span>
-                <span
-                  className={styles.date}
-                >{` • ${getPublishedAt()} • `}</span>
-                <span>{getDescrition()}</span>
+              <div className={styles.info}>
+                <div className={styles["info-top"]}>
+                  <span
+                    className={styles.viewCount}
+                  >{`조회수 ${getViewCount()}회 `}</span>
+                  <span
+                    className={styles.date}
+                  >{` • ${getPublishedAt()} • `}</span>
+                </div>
+                <div className={styles.description}>
+                  <span>{getDescrition()}</span>
+                </div>
               </div>
+            </div>
+          )}
+          {commentsLoading ? (
+            "loading..."
+          ) : (
+            <div>
+              {commentsData.items.map((item: any) => (
+                <div style={{ fontSize: "1.2rem", lineHeight: "2rem" }}>
+                  {item.snippet.topLevelComment.snippet.textOriginal}
+                </div>
+              ))}
             </div>
           )}
         </div>

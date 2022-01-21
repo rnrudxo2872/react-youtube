@@ -31,3 +31,11 @@ export async function getVideoDetail(id: string) {
     )
   ).json();
 }
+
+export async function getCommentThread(videoId: string) {
+  return await (
+    await fetch(
+      `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&key=${API_KEY}&textFormat=plainText&videoId=${videoId}&maxResult=20`
+    )
+  ).json();
+}

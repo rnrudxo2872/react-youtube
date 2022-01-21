@@ -21,8 +21,19 @@
     font-weight: 600;
 }
 
-.description {
+.info {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid gray;
+}
 
+.info-top {
+    display: flex;
+    gap: 10px;
+}
+
+.description {
+    
 }
 
 .player iframe {
