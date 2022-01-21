@@ -32,6 +32,31 @@
     gap: 10px;
 }
 
+.remote-container {
+    display: flex;
+}
+
+.btn {
+    background-color: rgba(0, 0, 0, 0);
+    color: #fff;
+    border: none;
+}
+
+.like__btn {
+    display: flex;
+    align-items: center;
+}
+
+.like__icon {
+    width: 40px;
+    height: 40px;
+}
+
+.like__counts {
+    margin-left: 0.5rem;
+    font-size: 1.4rem;
+}
+
 .description {
     
 }
