@@ -3,7 +3,7 @@
     justify-content: center;
 }
 
-.main {
+.container > .main {
     padding-top: 40px;
     padding-right: 40px;
     display: flex;
@@ -43,4 +43,31 @@
 
 .relate-list {
 
+}
+
+.comment-container {
+    display: flex;
+    margin-top: 14px;
+}
+
+.comment-container > .author-thumbnail .thumbnail__image {
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.comment-main {
+    margin-left: 14px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.comment-main .head .author-name {
+    font-weight: 800;
+    padding-right: 14px;
+}
+
+.comment-main .body {
+    font-size: 1.2rem;
+    line-height: 2rem;
 }

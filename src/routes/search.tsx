@@ -12,7 +12,7 @@ export default function Search() {
     ["search", `${getURLParams(search, "terms")}`],
     () => searchVideos(getURLParams(search, "terms") ?? "")
   );
-  console.log(data?.items);
+
   return (
     <div>
       <Head title={getURLParams(search, "terms")} />

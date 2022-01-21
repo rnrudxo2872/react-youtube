@@ -34,6 +34,38 @@ export default function Watch() {
     if (!videoData) throw new Error("video data does not exist.");
     return videoData.items[0].snippet.description;
   };
+  const getLater = (value: string | number) => {
+    const today = new Date();
+    const timeValue = new Date(value);
+
+    const seconds = Math.floor((today.getTime() - timeValue.getTime()) / 1000);
+    if (seconds < 5) return "방금전";
+    if (seconds < 60) {
+      return `${seconds}초전`;
+    }
+
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) {
+      return `${minutes}분전`;
+    }
+
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) {
+      return `${hours}시간전`;
+    }
+
+    const days = Math.floor(hours / 24);
+    if (days < 31) {
+      return `${days}일전`;
+    }
+
+    const months = Math.floor(days / 30);
+    if (months < 12) {
+      return `${months}달전`;
+    }
+
+    return `${Math.floor(days / 365)}년전`;
+  };
   console.log(commentsData);
   return (
     <>
@@ -76,11 +108,38 @@ export default function Watch() {
             "loading..."
           ) : (
             <div>
-              {commentsData?.items.map((item: any) => (
-                <div style={{ fontSize: "1.2rem", lineHeight: "2rem" }}>
-                  {item.snippet.topLevelComment.snippet.textOriginal}
-                </div>
-              ))}
+              {commentsData?.items.map((item) => {
+                const {
+                  snippet: {
+                    topLevelComment: { snippet },
+                  },
+                } = item;
+                return (
+                  <div className={styles["comment-container"]} key={item.id}>
+                    <section className={styles["author-thumbnail"]}>
+                      <div className={styles["thumbnail__image"]}>
+                        <img
+                          src={snippet.authorProfileImageUrl}
+                          alt={`${snippet.authorDisplayName}의 프로필 이미지`}
+                        />
+                      </div>
+                    </section>
+                    <section className={styles["comment-main"]}>
+                      <div className={styles.head}>
+                        <span className={styles["author-name"]}>
+                          {snippet.authorDisplayName}
+                        </span>
+                        <span className={styles["published-date"]}>
+                          {getLater(snippet.publishedAt)}
+                        </span>
+                      </div>
+                      <div className={styles.body}>
+                        <span>{snippet.textOriginal}</span>
+                      </div>
+                    </section>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
