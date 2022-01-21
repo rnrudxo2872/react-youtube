@@ -1,18 +1,14 @@
+import { IPageInfo, IYouTubeBase } from "./interfaces";
 import { Thumbnails } from "./search.interface";
 
 export interface ChennalInfo {
   kind: string;
   etag: string;
-  pageInfo: {
-    totalResults: number;
-    resultsPerPage: number;
-  };
+  pageInfo: IPageInfo;
   items: ChennalItem[];
 }
 
-interface ChennalItem {
-  kind: string;
-  etag: string;
+interface ChennalItem extends IYouTubeBase {
   id: string;
   snippet: {
     title: string;

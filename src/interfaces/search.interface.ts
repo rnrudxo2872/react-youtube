@@ -1,3 +1,5 @@
+import { IYouTubeBase } from "./interfaces";
+
 export interface ISearchVideo {
   kind: string;
   etag: string;
@@ -10,9 +12,7 @@ export interface ISearchVideo {
   items: Item[];
 }
 
-export interface Item {
-  kind: string;
-  etag: string;
+export interface Item extends IYouTubeBase {
   id: ItemID;
   snippet: Snippet;
 }

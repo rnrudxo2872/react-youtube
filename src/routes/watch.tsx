@@ -2,25 +2,20 @@ import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import { getCommentThread, getVideoDetail } from "../api";
 import Head from "../components/head";
-import { IVideoDetail } from "../interfaces/watch.interface";
+import { IComments, IVideoDetail } from "../interfaces/watch.interface";
 import styles from "../styles/watch.module.css";
+import { getURLParams } from "../utiles/utiles";
 
 export default function Watch() {
   const { search } = useLocation();
-  const getSearchParam = () => {
-    const result = new URLSearchParams(search).get("v");
-    if (!result) throw new Error("params does not exist.");
-
-    return result;
-  };
   const { data: videoData, isLoading: videoLoading } = useQuery<IVideoDetail>(
-    ["video", getSearchParam()],
-    () => getVideoDetail(getSearchParam())
+    ["video", getURLParams(search, "v")],
+    () => getVideoDetail(getURLParams(search, "v"))
   );
-  const { data: commentsData, isLoading: commentsLoading } = useQuery(
-    ["video", getSearchParam(), "comments"],
-    () => getCommentThread(getSearchParam())
-  );
+  const { data: commentsData, isLoading: commentsLoading } =
+    useQuery<IComments>(["video", getURLParams(search, "v"), "comments"], () =>
+      getCommentThread(getURLParams(search, "v"))
+    );
   const getTitle = () => {
     if (!videoData) throw new Error("video data does not exist.");
     return videoData.items[0].snippet.title;
@@ -47,7 +42,10 @@ export default function Watch() {
         <div className={styles.main}>
           <div className={styles.player}>
             <iframe
-              src={`https://www.youtube.com/embed/${getSearchParam()}?autoplay=1`}
+              src={`https://www.youtube.com/embed/${getURLParams(
+                search,
+                "v"
+              )}?autoplay=1`}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
             ></iframe>
@@ -78,7 +76,7 @@ export default function Watch() {
             "loading..."
           ) : (
             <div>
-              {commentsData.items.map((item: any) => (
+              {commentsData?.items.map((item: any) => (
                 <div style={{ fontSize: "1.2rem", lineHeight: "2rem" }}>
                   {item.snippet.topLevelComment.snippet.textOriginal}
                 </div>

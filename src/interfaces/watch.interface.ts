@@ -1,20 +1,12 @@
+import { IPageInfo, IYouTubeBase } from "./interfaces";
 import { Thumbnail } from "./search.interface";
 
-export interface IVideoDetail {
-  kind: string;
-  etag: string;
+export interface IVideoDetail extends IYouTubeBase {
   items: DetailItem[];
-  pageInfo: PageInfo;
+  pageInfo: IPageInfo;
 }
 
-interface PageInfo {
-  totalResults: number;
-  resultsPerPage: number;
-}
-
-interface DetailItem {
-  kind: string;
-  etag: string;
+interface DetailItem extends IYouTubeBase {
   id: string;
   snippet: DetailSnippets;
   contentDetails: ContentDetails;
@@ -54,4 +46,49 @@ interface Statistics {
   likeCount: string;
   favoriteCount: string;
   commentCount: string;
+}
+
+export interface IComments extends IYouTubeBase {
+  nextPageToken: string;
+  pageInfo: IPageInfo;
+  items: CommentItem[];
+}
+
+interface CommentItem extends IYouTubeBase {
+  id: string;
+  snippet: CommentSnippet;
+}
+
+interface CommentSnippet {
+  videoId: string;
+  topLevelComment: TopLevelComment;
+  canReply: boolean;
+  totalReplyCount: number;
+  isPublic: boolean;
+}
+
+interface TopLevelComment {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet: TopCommentSnippet;
+}
+
+interface TopCommentSnippet {
+  videoId: string;
+  textDisplay: string;
+  textOriginal: string;
+  authorDisplayName: string;
+  authorProfileImageUrl: string;
+  authorChannelUrl: string;
+  authorChannelId: AuthorChannelId;
+  canRate: boolean;
+  viewerRating: string;
+  likeCount: number;
+  publishedAt: string;
+  updatedAt: string;
+}
+
+interface AuthorChannelId {
+  value: string;
 }
