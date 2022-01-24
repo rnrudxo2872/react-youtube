@@ -34,6 +34,7 @@
 
 .remote-container {
     display: flex;
+    padding-bottom: 16px;
 }
 
 .btn {
@@ -48,8 +49,8 @@
 }
 
 .like__icon {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
 }
 
 .like__counts {
