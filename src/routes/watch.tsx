@@ -66,6 +66,19 @@ export default function Watch() {
 
     return `${Math.floor(days / 365)}년전`;
   };
+  const getLikeCounts = () => {
+    const result = videoData?.items[0].statistics.likeCount;
+    if (!result) throw new Error("fetch like counts error.");
+    return result;
+  };
+  const getFormattedCounts = (count: number | string) => {
+    const arg = Number(count);
+
+    const thousand = arg / 1000;
+    if (thousand < 1) return `${arg}`;
+    if (thousand < 10) return `${thousand.toFixed(1)}천`;
+    return `${(thousand / 10).toFixed(1)}만`;
+  };
   console.log(commentsData);
   return (
     <>
@@ -135,7 +148,7 @@ export default function Watch() {
                       </svg>
                     </div>
                     <span className={styles["like__counts"]}>
-                      {videoData?.items[0].statistics.likeCount}
+                      {getFormattedCounts(getLikeCounts())}
                     </span>
                   </button>
                 </div>
