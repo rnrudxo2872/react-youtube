@@ -14,7 +14,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <div className="App">
-          <BrowserRouter>
+          <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Navbar />
             <Router />
           </BrowserRouter>
