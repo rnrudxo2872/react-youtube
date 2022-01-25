@@ -1,16 +1,18 @@
-import styles from "../styles/resultVideo.module.css";
-import { Item } from "../interfaces/search.interface";
 import { useQuery } from "react-query";
 import { getChannelInfo } from "../api";
 import { ChennalInfo } from "../interfaces/resultVideo.interface";
+import { DetailItem } from "../interfaces/watch.interface";
+import styles from "../styles/popularVideo.module.css";
 
-export default function ResultVideo(props: Item) {
+export default function PopularVideo(props: DetailItem) {
+  const { id, snippet } = props;
   const {
-    snippet,
-    id: { videoId },
-  } = props;
-  const { title, thumbnails, channelId, channelTitle, description } = snippet;
-  const { medium } = thumbnails;
+    thumbnails: { medium },
+    title,
+    channelId,
+    channelTitle,
+    description,
+  } = snippet;
   const parser = new DOMParser();
   const { isLoading, data } = useQuery<ChennalInfo>(
     ["chennel", `${channelId}`],
@@ -18,7 +20,7 @@ export default function ResultVideo(props: Item) {
   );
 
   return (
-    <a href={`/watch?v=${videoId}`}>
+    <a href={`/watch?v=${id}`}>
       <div className={styles.container}>
         <section>
           <img
@@ -60,7 +62,7 @@ export default function ResultVideo(props: Item) {
             </div>
           </section>
           <div className={styles["description-wrapper"]}>
-            <span>{`${description}`}</span>
+            <span>{`${description.slice(0, 100)}...`}</span>
           </div>
         </section>
       </div>

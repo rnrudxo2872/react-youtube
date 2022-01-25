@@ -1,12 +1,12 @@
 import { IPageInfo, IYouTubeBase } from "./interfaces";
-import { Thumbnail } from "./search.interface";
+import { Thumbnails } from "./search.interface";
 
 export interface IVideoDetail extends IYouTubeBase {
   items: DetailItem[];
   pageInfo: IPageInfo;
 }
 
-interface DetailItem extends IYouTubeBase {
+export interface DetailItem extends IYouTubeBase {
   id: string;
   snippet: DetailSnippets;
   contentDetails: ContentDetails;
@@ -18,7 +18,7 @@ interface DetailSnippets {
   channelId: string;
   title: string;
   description: string;
-  thumbnails: Thumbnail;
+  thumbnails: Thumbnails;
   channelTitle: string;
   categoryId: string;
   liveBroadcastContent: string;

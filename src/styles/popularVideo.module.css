@@ -1,0 +1,9 @@
+@import url("./resultVideo.module.css");
+
+.container {
+    flex-direction: row;
+}
+
+.info-container {
+    flex-direction: column;
+}
