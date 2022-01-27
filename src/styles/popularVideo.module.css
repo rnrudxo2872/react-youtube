@@ -2,8 +2,9 @@
 
 .container {
     flex-direction: row;
+    width: 450px;
 }
 
 .info-container {
-    flex-direction: column;
+    flex-direction: row;
 }
