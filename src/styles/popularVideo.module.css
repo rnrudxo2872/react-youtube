@@ -2,9 +2,45 @@
 
 .container {
     flex-direction: row;
-    width: 450px;
+    width: 430px;
+    margin: 0 1em 1.5em 1em;
 }
 
 .info-container {
-    flex-direction: row;
+    display: flex;
+}
+
+.chennal-img {
+    border-radius: 1000%;
+    overflow: hidden;
+    min-width: 43px;
+    height: 43px;
+    margin: 1em 1em 0 0;
+}
+
+.top-info {
+    margin-top: 1em;
+    line-height: 1.2em;
+}
+
+.title-wrapper,
+.chennal-title {
+    text-align: left;
+}
+
+.chennal-title {
+    font-size: 0.8rem;
+    margin-top: 0.8em;
+    color: rgb(117, 117, 105);
+}
+
+.chennal-title:hover {
+    cursor: pointer;
+    color: white;
+}
+
+.video-info {
+    text-align: left;
+    font-size: 0.8rem;
+    color: rgb(117, 117, 105);
 }

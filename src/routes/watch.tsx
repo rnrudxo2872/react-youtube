@@ -4,7 +4,7 @@ import { getCommentThread, getVideoDetail } from "../api";
 import Head from "../components/head";
 import { IComments, IVideoDetail } from "../interfaces/watch.interface";
 import styles from "../styles/watch.module.css";
-import { getURLParams } from "../utiles/utiles";
+import { getFormattedCounts, getLater, getURLParams } from "../utiles/utiles";
 
 export default function Watch() {
   const { search } = useLocation();
@@ -34,50 +34,10 @@ export default function Watch() {
     if (!videoData) throw new Error("video data does not exist.");
     return videoData.items[0].snippet.description;
   };
-  const getLater = (value: string | number) => {
-    const today = new Date();
-    const timeValue = new Date(value);
-
-    const seconds = Math.floor((today.getTime() - timeValue.getTime()) / 1000);
-    if (seconds < 5) return "방금전";
-    if (seconds < 60) {
-      return `${seconds}초전`;
-    }
-
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) {
-      return `${minutes}분전`;
-    }
-
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) {
-      return `${hours}시간전`;
-    }
-
-    const days = Math.floor(hours / 24);
-    if (days < 31) {
-      return `${days}일전`;
-    }
-
-    const months = Math.floor(days / 30);
-    if (months < 12) {
-      return `${months}달전`;
-    }
-
-    return `${Math.floor(days / 365)}년전`;
-  };
   const getLikeCounts = () => {
     const result = videoData?.items[0].statistics.likeCount;
     if (!result) throw new Error("fetch like counts error.");
     return result;
-  };
-  const getFormattedCounts = (count: number | string) => {
-    const arg = Number(count);
-
-    const thousand = arg / 1000;
-    if (thousand < 1) return `${arg}`;
-    if (thousand < 10) return `${thousand.toFixed(1)}천`;
-    return `${(thousand / 10).toFixed(1)}만`;
   };
   console.log(commentsData);
   return (
