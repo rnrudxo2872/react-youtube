@@ -4,6 +4,7 @@ import { Thumbnails } from "./search.interface";
 export interface IVideoDetail extends IYouTubeBase {
   items: DetailItem[];
   pageInfo: IPageInfo;
+  nextPageToken: string;
 }
 
 export interface DetailItem extends IYouTubeBase {

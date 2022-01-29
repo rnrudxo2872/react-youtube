@@ -39,3 +39,11 @@ export async function getCommentThread(videoId: string) {
     )
   ).json();
 }
+
+export async function getNextVideos(nextToken: string) {
+  return await (
+    await fetch(
+      `${END_POINT}/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=20&key=${API_KEY}&regionCode=KR&pageToken=${nextToken}`
+    )
+  ).json();
+}

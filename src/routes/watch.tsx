@@ -12,6 +12,7 @@ export default function Watch() {
     ["video", getURLParams(search, "v")],
     () => getVideoDetail(getURLParams(search, "v"))
   );
+  console.log(videoData);
   const { data: commentsData, isLoading: commentsLoading } =
     useQuery<IComments>(["video", getURLParams(search, "v"), "comments"], () =>
       getCommentThread(getURLParams(search, "v"))
