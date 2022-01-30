@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { getNextVideos, getPopularVideos } from "../api";
 import PopularVideo from "../components/popularVideo";
@@ -9,15 +9,15 @@ export default function Home() {
   const { data, isLoading } = useQuery<IVideoDetail>(["home", "popular"], () =>
     getPopularVideos()
   );
-  const [NextVideo, setNextVideo] = useState<IVideoDetail>();
-  const [nextToken, setNextToken] = useState("");
+  const [NextVideo, setNextVideo] = useState<IVideoDetail[]>();
+  let nextToken = useRef("");
   useEffect(() => {
     const observer = () => {
       const obs = new IntersectionObserver(setNextVideos);
       obs.observe(getPageBottom());
     };
     if (!isLoading) {
-      setNextToken(data!.nextPageToken);
+      nextToken.current = data!.nextPageToken;
       observer();
     }
   }, [isLoading]);
@@ -29,9 +29,9 @@ export default function Home() {
   const setNextVideos = (entries: IntersectionObserverEntry[]) => {
     entries.forEach(async (entry) => {
       if (entry.isIntersecting) {
-        const ee = await getNextVideos(nextToken);
-        console.log(data, ee);
-        setNextVideo(ee);
+        const next = await getNextVideos(nextToken.current);
+        setNextVideo((cur) => (cur ? [...cur, next] : [next]));
+        nextToken.current = next.nextPageToken;
       }
     });
   };
@@ -44,9 +44,12 @@ export default function Home() {
             <PopularVideo key={video.id} {...video} />
           ))}
       {NextVideo
-        ? NextVideo.items.map((video) => (
-            <PopularVideo key={video.id} {...video} />
-          ))
+        ? NextVideo.reduce((prev, cur) => {
+            const item = cur.items.map((video) => (
+              <PopularVideo key={video.id} {...video} />
+            ));
+            return [...prev, ...item];
+          }, [] as JSX.Element[])
         : "now Loading..."}
       <section className="page-bottom"></section>
     </div>

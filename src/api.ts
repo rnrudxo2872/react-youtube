@@ -1,4 +1,5 @@
 import { API_KEY } from "./env";
+import { IVideoDetail } from "./interfaces/watch.interface";
 
 const END_POINT = "https://youtube.googleapis.com/youtube/v3";
 
@@ -35,12 +36,16 @@ export async function getVideoDetail(id: string) {
 export async function getCommentThread(videoId: string) {
   return await (
     await fetch(
-      `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&key=${API_KEY}&textFormat=html&videoId=${videoId}&maxResult=20`
+      `${END_POINT}/commentThreads?part=snippet&key=${API_KEY}&textFormat=html&videoId=${videoId}&maxResult=20`
     )
   ).json();
 }
 
-export async function getNextVideos(nextToken: string) {
+export async function getNextVideos(nextToken: string): Promise<IVideoDetail> {
+  console.log(
+    `fetch data url -> `,
+    `${END_POINT}/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=20&key=${API_KEY}&regionCode=KR&pageToken=${nextToken}`
+  );
   return await (
     await fetch(
       `${END_POINT}/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=20&key=${API_KEY}&regionCode=KR&pageToken=${nextToken}`
