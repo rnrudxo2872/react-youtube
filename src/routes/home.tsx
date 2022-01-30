@@ -10,7 +10,7 @@ export default function Home() {
     getPopularVideos()
   );
   const [NextVideo, setNextVideo] = useState<IVideoDetail[]>();
-  let nextToken = useRef("");
+  const nextToken = useRef("");
   useEffect(() => {
     const observer = () => {
       const obs = new IntersectionObserver(setNextVideos);
@@ -20,7 +20,7 @@ export default function Home() {
       nextToken.current = data!.nextPageToken;
       observer();
     }
-  }, [isLoading]);
+  }, [data, isLoading]);
   const getPageBottom = () => {
     const result = document.querySelector(".page-bottom");
     if (!result) throw new Error("page-bottom does not exist.");

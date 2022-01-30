@@ -20,6 +20,9 @@ export default function Navbar() {
 
     pageNavigate(`/search?terms=${navSearch}`);
   };
+  const goHome = () => {
+    pageNavigate("/");
+  };
 
   if (errors) console.log(errors);
 
@@ -43,7 +46,7 @@ export default function Navbar() {
               ></path>
             </svg>
           </div>
-          <div className={styles.logo}>
+          <div className={styles.logo} onClick={goHome}>
             <svg
               aria-hidden="true"
               focusable="false"

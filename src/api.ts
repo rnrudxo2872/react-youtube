@@ -42,10 +42,6 @@ export async function getCommentThread(videoId: string) {
 }
 
 export async function getNextVideos(nextToken: string): Promise<IVideoDetail> {
-  console.log(
-    `fetch data url -> `,
-    `${END_POINT}/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=20&key=${API_KEY}&regionCode=KR&pageToken=${nextToken}`
-  );
   return await (
     await fetch(
       `${END_POINT}/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=20&key=${API_KEY}&regionCode=KR&pageToken=${nextToken}`

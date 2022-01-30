@@ -30,6 +30,10 @@
     height: 2rem;
 }
 
+.logo:hover {
+    cursor: pointer;
+}
+
 .menubar {
     margin-right: 12px;
     margin-top: -10px;
