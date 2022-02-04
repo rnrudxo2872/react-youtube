@@ -13,21 +13,19 @@ export default function Home() {
   );
   const [NextVideo, setNextVideo] = useState<IVideoDetail[]>();
   const nextToken = useRef("");
+  const pageBottom = useRef<HTMLElement>(null);
   useEffect(() => {
     const observer = () => {
       const obs = new IntersectionObserver(setNextVideos);
-      obs.observe(getPageBottom());
+      if (!pageBottom.current)
+        throw new Error("page bottom class element does not exist.");
+      obs.observe(pageBottom.current);
     };
     if (!isLoading) {
       nextToken.current = data!.nextPageToken;
       observer();
     }
   }, [data, isLoading]);
-  const getPageBottom = () => {
-    const result = document.querySelector(".page-bottom");
-    if (!result) throw new Error("page-bottom does not exist.");
-    return result;
-  };
   const setNextVideos = (entries: IntersectionObserverEntry[]) => {
     entries.forEach(async (entry) => {
       if (entry.isIntersecting) {
@@ -53,7 +51,7 @@ export default function Home() {
             return [...prev, ...item];
           }, [] as JSX.Element[])
         : "now Loading..."}
-      <section className="page-bottom"></section>
+      <section className="page-bottom" ref={pageBottom}></section>
     </div>
   );
 }
