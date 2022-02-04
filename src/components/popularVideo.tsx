@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
-import { getChannelInfo } from "../api";
+import { useRecoilValue } from "recoil";
+import { youtubeAtom } from "../atoms/youtube";
 import { ChennalInfo } from "../interfaces/resultVideo.interface";
 import { DetailItem } from "../interfaces/watch.interface";
 import styles from "../styles/popularVideo.module.css";
@@ -14,11 +15,12 @@ export default function PopularVideo(props: DetailItem) {
     channelTitle,
     publishedAt,
   } = snippet;
-  const { likeCount, viewCount } = statistics;
+  const { viewCount } = statistics;
   const parser = new DOMParser();
+  const youtube = useRecoilValue(youtubeAtom);
   const { isLoading, data } = useQuery<ChennalInfo>(
     ["chennel", `${channelId}`],
-    () => getChannelInfo(channelId)
+    () => youtube.getChannelInfo(channelId)
   );
 
   return (

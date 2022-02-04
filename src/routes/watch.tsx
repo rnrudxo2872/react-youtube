@@ -1,21 +1,23 @@
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
-import { getCommentThread, getVideoDetail } from "../api";
+import { useRecoilValue } from "recoil";
+import { youtubeAtom } from "../atoms/youtube";
 import Head from "../components/head";
 import { IComments, IVideoDetail } from "../interfaces/watch.interface";
 import styles from "../styles/watch.module.css";
 import { getFormattedCounts, getLater, getURLParams } from "../utiles/utiles";
 
 export default function Watch() {
+  const youtube = useRecoilValue(youtubeAtom);
   const { search } = useLocation();
   const { data: videoData, isLoading: videoLoading } = useQuery<IVideoDetail>(
     ["video", getURLParams(search, "v")],
-    () => getVideoDetail(getURLParams(search, "v"))
+    () => youtube.getVideoDetail(getURLParams(search, "v"))
   );
   console.log(videoData);
   const { data: commentsData, isLoading: commentsLoading } =
     useQuery<IComments>(["video", getURLParams(search, "v"), "comments"], () =>
-      getCommentThread(getURLParams(search, "v"))
+      youtube.getCommentThread(getURLParams(search, "v"))
     );
   const getTitle = () => {
     if (!videoData) throw new Error("video data does not exist.");
@@ -40,7 +42,7 @@ export default function Watch() {
     if (!result) throw new Error("fetch like counts error.");
     return result;
   };
-  console.log(commentsData);
+
   return (
     <>
       <Head title={videoLoading ? "Video" : getTitle()} />

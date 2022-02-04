@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
-import { getNextVideos, getPopularVideos } from "../api";
+import { useRecoilValue } from "recoil";
+import { youtubeAtom } from "../atoms/youtube";
 import PopularVideo from "../components/popularVideo";
 import { IVideoDetail } from "../interfaces/watch.interface";
 import styles from "../styles/home.module.css";
 
 export default function Home() {
+  const youtube = useRecoilValue(youtubeAtom);
   const { data, isLoading } = useQuery<IVideoDetail>(["home", "popular"], () =>
-    getPopularVideos()
+    youtube.getPopularVideos()
   );
   const [NextVideo, setNextVideo] = useState<IVideoDetail[]>();
   const nextToken = useRef("");
@@ -29,7 +31,7 @@ export default function Home() {
   const setNextVideos = (entries: IntersectionObserverEntry[]) => {
     entries.forEach(async (entry) => {
       if (entry.isIntersecting) {
-        const next = await getNextVideos(nextToken.current);
+        const next = await youtube.getNextVideos(nextToken.current);
         setNextVideo((cur) => (cur ? [...cur, next] : [next]));
         nextToken.current = next.nextPageToken;
       }

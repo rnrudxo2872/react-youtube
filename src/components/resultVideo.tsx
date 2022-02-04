@@ -1,8 +1,9 @@
 import styles from "../styles/resultVideo.module.css";
 import { Item } from "../interfaces/search.interface";
 import { useQuery } from "react-query";
-import { getChannelInfo } from "../api";
 import { ChennalInfo } from "../interfaces/resultVideo.interface";
+import { useRecoilValue } from "recoil";
+import { youtubeAtom } from "../atoms/youtube";
 
 export default function ResultVideo(props: Item) {
   const {
@@ -12,9 +13,10 @@ export default function ResultVideo(props: Item) {
   const { title, thumbnails, channelId, channelTitle, description } = snippet;
   const { medium } = thumbnails;
   const parser = new DOMParser();
+  const youtube = useRecoilValue(youtubeAtom);
   const { isLoading, data } = useQuery<ChennalInfo>(
     ["chennel", `${channelId}`],
-    () => getChannelInfo(channelId)
+    () => youtube.getChannelInfo(channelId)
   );
 
   return (
