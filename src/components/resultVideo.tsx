@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { ChennalInfo } from "../interfaces/resultVideo.interface";
 import { useRecoilValue } from "recoil";
 import { youtubeAtom } from "../atoms/youtube";
+import { DparserAtom } from "../atoms/domParser";
 
 export default function ResultVideo(props: Item) {
   const {
@@ -12,7 +13,7 @@ export default function ResultVideo(props: Item) {
   } = props;
   const { title, thumbnails, channelId, channelTitle, description } = snippet;
   const { medium } = thumbnails;
-  const parser = new DOMParser();
+  const parser = useRecoilValue(DparserAtom);
   const youtube = useRecoilValue(youtubeAtom);
   const { isLoading, data } = useQuery<ChennalInfo>(
     ["chennel", `${channelId}`],
@@ -33,9 +34,7 @@ export default function ResultVideo(props: Item) {
         <section className={styles["info-container"]}>
           <section className={styles["top-info"]}>
             <div className={styles["title-wrapper"]}>
-              <h1>
-                {parser.parseFromString(title, "text/html").body.textContent}
-              </h1>
+              <h1>{parser.htmlToText(title)}</h1>
             </div>
             <div className={styles["chennal-wrapper"]}>
               <div className={styles["chennal-img"]}>

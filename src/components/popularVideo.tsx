@@ -2,6 +2,7 @@ import { MouseEvent, useRef } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { DparserAtom } from "../atoms/domParser";
 import { youtubeAtom } from "../atoms/youtube";
 import { ChennalInfo } from "../interfaces/resultVideo.interface";
 import { DetailItem } from "../interfaces/watch.interface";
@@ -18,7 +19,7 @@ export default function PopularVideo(props: DetailItem) {
     publishedAt,
   } = snippet;
   const { viewCount } = statistics;
-  const parser = new DOMParser();
+  const parser = useRecoilValue(DparserAtom);
   const youtube = useRecoilValue(youtubeAtom);
   const { isLoading, data } = useQuery<ChennalInfo>(
     ["chennel", `${channelId}`],
@@ -50,23 +51,23 @@ export default function PopularVideo(props: DetailItem) {
       <section className={styles["info-container"]}>
         <section className={styles["chennal-img"]}>
           {isLoading ? null : (
-            <img
-              src={data?.items[0].snippet.thumbnails.default.url}
-              alt={`${data?.items[0].snippet.title} 채널 이미지`}
-              width={
-                (data?.items[0].snippet.thumbnails.default.width || 88) - 45
-              }
-              height={
-                (data?.items[0].snippet.thumbnails.default.height || 88) - 45
-              }
-            />
+            <a href={`https://www.youtube.com/channel/${channelId}`}>
+              <img
+                src={data?.items[0].snippet.thumbnails.default.url}
+                alt={`${data?.items[0].snippet.title} 채널 이미지`}
+                width={
+                  (data?.items[0].snippet.thumbnails.default.width || 88) - 45
+                }
+                height={
+                  (data?.items[0].snippet.thumbnails.default.height || 88) - 45
+                }
+              />
+            </a>
           )}
         </section>
         <section className={styles["top-info"]}>
           <div className={styles["title-wrapper"]}>
-            <h1>
-              {parser.parseFromString(title, "text/html").body.textContent}
-            </h1>
+            <h1>{parser.htmlToText(title)}</h1>
           </div>
           <div className={styles["chennal-title"]} ref={channelRef}>
             <a href={`https://www.youtube.com/channel/${channelId}`}>
