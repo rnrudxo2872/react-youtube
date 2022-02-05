@@ -1,28 +1,14 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { NavbarProps, SearchForm } from "../interfaces/navbar.interface";
 import styles from "../styles/navbar.module.css";
 import { SearchValidatoin } from "../validations/navbar.validation";
 
-interface SearchForm {
-  navSearch: string;
-}
-
-export default function Navbar() {
+export default function Navbar({ onSubmit, clickLogo }: NavbarProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SearchForm>();
-  const pageNavigate = useNavigate();
-
-  const onSubmit: SubmitHandler<SearchForm> = (data) => {
-    const { navSearch } = data;
-
-    pageNavigate(`/search?terms=${navSearch}`);
-  };
-  const goHome = () => {
-    pageNavigate("/");
-  };
 
   if (errors) console.log(errors);
 
@@ -46,7 +32,7 @@ export default function Navbar() {
               ></path>
             </svg>
           </div>
-          <div className={styles.logo} onClick={goHome}>
+          <div className={styles.logo} onClick={clickLogo}>
             <svg
               aria-hidden="true"
               focusable="false"
