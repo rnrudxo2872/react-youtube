@@ -1,4 +1,4 @@
-import { MouseEvent, useRef } from "react";
+import { memo, MouseEvent, useRef } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -9,7 +9,7 @@ import { DetailItem } from "../interfaces/watch.interface";
 import styles from "../styles/popularVideo.module.css";
 import { getFormattedCounts, getLater } from "../utiles/utiles";
 
-export default function PopularVideo(props: DetailItem) {
+function PopularVideo(props: DetailItem) {
   const { id, snippet, statistics } = props;
   const {
     thumbnails: { medium },
@@ -83,3 +83,5 @@ export default function PopularVideo(props: DetailItem) {
     </div>
   );
 }
+
+export default memo(PopularVideo);
