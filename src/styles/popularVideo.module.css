@@ -4,6 +4,7 @@
     flex-direction: row;
     width: 430px;
     margin: 0 1em 1.5em 1em;
+    cursor: pointer;
 }
 
 .info-container {
