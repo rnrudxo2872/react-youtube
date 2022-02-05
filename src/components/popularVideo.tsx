@@ -1,5 +1,6 @@
 import { memo, MouseEvent, useRef } from "react";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { DparserAtom } from "../atoms/domParser";
@@ -25,13 +26,15 @@ function PopularVideo(props: DetailItem) {
     ["chennel", `${channelId}`],
     () => youtube.getChannelInfo(channelId)
   );
-  const channelRef = useRef<HTMLDivElement>(null);
   const pageNavigate = useNavigate();
   const onClickVideo = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const except =
       target.closest<HTMLDivElement>(`.${styles["chennal-title"]}`) ??
-      target.closest<HTMLDivElement>(`.${styles["chennal-img"]}`);
+      target.closest<HTMLDivElement>(`.${styles["chennal-img"]}`) ??
+      target.closest<HTMLElement>(`.${styles["thumbnail-wrapper"]}`) ??
+      target.closest<HTMLElement>(`.${styles["title-wrapper"]}`);
+
     if (except) {
       return;
     }
@@ -40,13 +43,15 @@ function PopularVideo(props: DetailItem) {
 
   return (
     <div className={styles.container} onClick={onClickVideo}>
-      <section>
-        <img
-          src={medium.url}
-          alt={`${title}의 thumbnail.`}
-          width={"100%"}
-          height={"auto"}
-        />
+      <section className={styles["thumbnail-wrapper"]}>
+        <Link to={`/watch?v=${id}`}>
+          <img
+            src={medium.url}
+            alt={`${title}의 thumbnail.`}
+            width={"100%"}
+            height={"auto"}
+          />
+        </Link>
       </section>
       <section className={styles["info-container"]}>
         <section className={styles["chennal-img"]}>
@@ -67,9 +72,11 @@ function PopularVideo(props: DetailItem) {
         </section>
         <section className={styles["top-info"]}>
           <div className={styles["title-wrapper"]}>
-            <h1>{parser.htmlToText(title)}</h1>
+            <Link to={`/watch?v=${id}`}>
+              <h1>{parser.htmlToText(title)}</h1>
+            </Link>
           </div>
-          <div className={styles["chennal-title"]} ref={channelRef}>
+          <div className={styles["chennal-title"]}>
             <a href={`https://www.youtube.com/channel/${channelId}`}>
               <span>{channelTitle}</span>
             </a>
