@@ -1,4 +1,4 @@
-import { memo, MouseEvent, useRef } from "react";
+import { memo, MouseEvent } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
