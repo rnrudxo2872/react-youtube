@@ -3,9 +3,10 @@ import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { youtubeAtom } from "../atoms/youtube";
 import Head from "../components/head";
-import { IComments, IVideoDetail } from "../interfaces/watch.interface";
+import VideoComments from "../components/videoComments";
+import { IVideoDetail } from "../interfaces/watch.interface";
 import styles from "../styles/watch.module.css";
-import { getFormattedCounts, getLater, getURLParams } from "../utiles/utiles";
+import { getFormattedCounts, getURLParams } from "../utiles/utiles";
 
 export default function Watch() {
   const youtube = useRecoilValue(youtubeAtom);
@@ -14,16 +15,7 @@ export default function Watch() {
     ["video", getURLParams(search, "v")],
     () => youtube.getVideoDetail(getURLParams(search, "v"))
   );
-  console.log(videoData);
-  const { data: commentsData, isLoading: commentsLoading } =
-    useQuery<IComments>(["video", getURLParams(search, "v"), "comments"], () =>
-      youtube.getCommentThread(getURLParams(search, "v"))
-    );
-  const { data: relatedData, isLoading: relatedLoading } = useQuery(
-    ["video", getURLParams(search, "v"), "related"],
-    () => youtube.getRelatedVideos(getURLParams(search, "v"))
-  );
-  console.log("관련 영상 데이터 ==> ", relatedData);
+
   const getTitle = () => {
     if (!videoData) throw new Error("video data does not exist.");
     return videoData.items[0].snippet.title;
@@ -123,44 +115,7 @@ export default function Watch() {
               </div>
             </div>
           )}
-          {commentsLoading ? (
-            "loading..."
-          ) : (
-            <div>
-              {commentsData?.items.map((item) => {
-                const {
-                  snippet: {
-                    topLevelComment: { snippet },
-                  },
-                } = item;
-                return (
-                  <div className={styles["comment-container"]} key={item.id}>
-                    <section className={styles["author-thumbnail"]}>
-                      <div className={styles["thumbnail__image"]}>
-                        <img
-                          src={snippet.authorProfileImageUrl}
-                          alt={`${snippet.authorDisplayName}의 프로필 이미지`}
-                        />
-                      </div>
-                    </section>
-                    <section className={styles["comment-main"]}>
-                      <div className={styles.head}>
-                        <span className={styles["author-name"]}>
-                          {snippet.authorDisplayName}
-                        </span>
-                        <span className={styles["published-date"]}>
-                          {getLater(snippet.publishedAt)}
-                        </span>
-                      </div>
-                      <div className={styles.body}>
-                        <span>{snippet.textOriginal}</span>
-                      </div>
-                    </section>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          <VideoComments videoId={getURLParams(search, "v")}></VideoComments>
         </div>
         <div className={styles["relate-list"]}>sc</div>
       </div>
