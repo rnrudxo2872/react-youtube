@@ -3,7 +3,7 @@
 .container {
     flex-direction: row;
     width: 430px;
-    margin: 0 1em 1.5em 1em;
+    margin: 0 .5em 1.5em .5em;
     cursor: pointer;
 }
 
