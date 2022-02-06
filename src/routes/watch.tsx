@@ -19,6 +19,11 @@ export default function Watch() {
     useQuery<IComments>(["video", getURLParams(search, "v"), "comments"], () =>
       youtube.getCommentThread(getURLParams(search, "v"))
     );
+  const { data: relatedData, isLoading: relatedLoading } = useQuery(
+    ["video", getURLParams(search, "v"), "related"],
+    () => youtube.getRelatedVideos(getURLParams(search, "v"))
+  );
+  console.log("관련 영상 데이터 ==> ", relatedData);
   const getTitle = () => {
     if (!videoData) throw new Error("video data does not exist.");
     return videoData.items[0].snippet.title;

@@ -51,4 +51,12 @@ export default class Youtube {
       )
     ).json();
   }
+
+  async getRelatedVideos(videoId: string): Promise<any> {
+    return await (
+      await fetch(
+        `${this.END_POINT}/search?part=snippet&type=video&relatedToVideoId=${videoId}&key=${API_KEY}&maxResults=20`
+      )
+    ).json();
+  }
 }
