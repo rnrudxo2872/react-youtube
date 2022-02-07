@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { youtubeAtom } from "../atoms/youtube";
 import Head from "../components/head";
+import RelatedVideos from "../components/relatedVideos";
 import VideoComments from "../components/videoComments";
 import { IVideoDetail } from "../interfaces/watch.interface";
 import styles from "../styles/watch.module.css";
@@ -115,9 +116,9 @@ export default function Watch() {
               </div>
             </div>
           )}
-          <VideoComments videoId={getURLParams(search, "v")}></VideoComments>
+          <VideoComments videoId={getURLParams(search, "v")} />
         </div>
-        <div className={styles["relate-list"]}>sc</div>
+        <RelatedVideos videoId={getURLParams(search, "v")} />
       </div>
     </>
   );
