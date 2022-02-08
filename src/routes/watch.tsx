@@ -118,7 +118,9 @@ export default function Watch() {
           )}
           <VideoComments videoId={getURLParams(search, "v")} />
         </div>
-        <RelatedVideos videoId={getURLParams(search, "v")} />
+        <div className={styles["second-part"]}>
+          <RelatedVideos videoId={getURLParams(search, "v")} />
+        </div>
       </div>
     </>
   );
