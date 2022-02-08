@@ -1,10 +1,18 @@
 import { IPageInfo, IYouTubeBase } from "./interfaces";
-import { Thumbnails } from "./search.interface";
+import { ItemID, Thumbnails } from "./search.interface";
 
 export interface IVideoDetail extends IYouTubeBase {
   items: DetailItem[];
   pageInfo: IPageInfo;
   nextPageToken: string;
+}
+
+export interface IRelatedDetail extends Omit<IVideoDetail, "items"> {
+  items: RelatedItem[];
+}
+
+export interface RelatedItem extends Omit<DetailItem, "id"> {
+  id: ItemID;
 }
 
 export interface DetailItem extends IYouTubeBase {

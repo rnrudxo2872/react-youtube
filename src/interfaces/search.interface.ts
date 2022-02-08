@@ -17,7 +17,7 @@ export interface Item extends IYouTubeBase {
   snippet: Snippet;
 }
 
-interface ItemID {
+export interface ItemID {
   kind: string;
   videoId: string;
 }

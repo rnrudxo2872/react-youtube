@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { DparserAtom } from "../atoms/domParser";
-import { DetailItem } from "../interfaces/watch.interface";
+import { RelatedItem } from "../interfaces/watch.interface";
 import styles from "../styles/relatedVideo.module.css";
 
 function RelatedVideo({
@@ -13,7 +13,7 @@ function RelatedVideo({
   },
   id,
   statistics,
-}: DetailItem) {
+}: RelatedItem) {
   const parser = useRecoilValue(DparserAtom);
   return (
     <div className={styles["video-wrapper"]}>
