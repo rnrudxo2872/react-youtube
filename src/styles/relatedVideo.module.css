@@ -1,3 +1,11 @@
 .video-wrapper {
     display: flex;
 }
+
+.video-wrapper:not(:last-child) {
+    margin-bottom: 0.5rem;
+}
+
+.video-thumnail {
+    margin-right: 0.5rem;
+}
